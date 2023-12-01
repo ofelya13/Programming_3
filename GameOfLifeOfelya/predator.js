@@ -118,7 +118,7 @@ class Predator {
     }
 
     die() {
-        console.log("sss")
+        console.log("Barev dzez")
         matrix[this.y][this.x] = 0;
         for (let i in predatorArr) {
             if (this.x == predatorArr[i].x && this.y == predatorArr[i].y) {
