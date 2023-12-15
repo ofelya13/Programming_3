@@ -1,4 +1,4 @@
-let LivingCreature = recuire("./livingCreature")
+let LivingCreature = require("./livingCreature")
 
 
 module.exports = class GrassEater extends LivingCreature{
@@ -7,7 +7,7 @@ module.exports = class GrassEater extends LivingCreature{
         this.energy = 10
     }
 
-    getNewCoordinates() {
+    getNewCoordinates() {  
         this.directions = [
             [this.x - 1, this.y - 1],
             [this.x, this.y - 1],
@@ -26,7 +26,7 @@ module.exports = class GrassEater extends LivingCreature{
     mull() {
 
         let emptyCells = this.chooseCell(0)
-        let newCell = random(emptyCells)
+        let newCell = emptyCells[Math.floor(Math.rndom)() * emptyCells.length]
 
         if (newCell) {
             let newX = newCell[0]

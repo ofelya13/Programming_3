@@ -1,4 +1,4 @@
-let LivingCreature = recuire("./livingCreature")
+let LivingCreature = require("./livingCreature")
 
 
 module.exports = class Grass extends LivingCreature{

@@ -1,8 +1,8 @@
-let LivingCreature = recuire("./livingCreature")
+let LivingCreature = require("./livingCreature")
 
 
 
-module.exports = class Amenaker {
+module.exports = class Amenaker extends LivingCreature{
     constructor(x, y) {
          super(x,y)
         this.energy = 15;
