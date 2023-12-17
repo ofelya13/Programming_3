@@ -25,13 +25,13 @@ let LivingCreature = require("./livingCreature")
         this.getNewCoordinates();
        
 
-        return super.chooseCell(char)
+        return super.choosCell(char)
     }
 
     mull() {
 
         let emptyCells = this.chooseCell(0)
-        let newCell = random(emptyCells)
+        let newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
 
         if (newCell) {
             let newX = newCell[0]
@@ -48,7 +48,7 @@ let LivingCreature = require("./livingCreature")
 
     eat() {
         let foods = this.chooseCell(4)
-        let food = random(foods)
+        let food = foods[Math.floor(Math.random() * foods.length)]
 
         if (food) {
             this.energy += 5
@@ -82,7 +82,7 @@ let LivingCreature = require("./livingCreature")
 
     move() {
         let emptyCells = this.chooseCell(0)
-        let newCell = random(emptyCells)
+        let newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
 
         if (newCell) {
             this.energy--
@@ -115,6 +115,3 @@ let LivingCreature = require("./livingCreature")
     }
 
 }
-
-
-    

@@ -2,11 +2,11 @@ let LivingCreature = require("./livingCreature")
 
 
 
-module.exports = class Amenaker extends LivingCreature{
+module.exports = class Amenaker extends LivingCreature {
     constructor(x, y) {
-         super(x,y)
+        super(x, y)
         this.energy = 15;
-     
+
 
     }
 
@@ -27,12 +27,12 @@ module.exports = class Amenaker extends LivingCreature{
 
     chooseCell(char, char2, char3, char4, char5) {
         this.getNewCoordinates();
-     return  super.chooseCell(char, char2, char3, char4, char5)
+        return super.choosCell(char, char2, char3, char4, char5)
     }
 
     eat() {
         let foods = this.chooseCell(1, 2, 3, 4, 5)
-        let food = random(foods)
+        let food = foods[Math.floor(Math.random() * foods.length)]
 
         if (food) {
             this.energy += 5
@@ -91,7 +91,7 @@ module.exports = class Amenaker extends LivingCreature{
 
     move() {
         let emptyCells = this.chooseCell(0)
-        let newCell = random(emptyCells)
+        let newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
 
         if (newCell) {
             this.energy--
@@ -103,7 +103,7 @@ module.exports = class Amenaker extends LivingCreature{
 
 
             this.x = newX
-            this.y = newY           
+            this.y = newY
             if (this.energy <= 0) {
                 this.die()
             }

@@ -3,11 +3,11 @@ let LivingCreature = require("./livingCreature")
 
 
 
-module.exports = class Fire  extends LivingCreature{
+module.exports = class Fire extends LivingCreature {
     constructor(x, y) {
-       super(x,y)
+        super(x, y)
         this.energy = 15;
- 
+
 
     }
 
@@ -28,15 +28,15 @@ module.exports = class Fire  extends LivingCreature{
 
     chooseCell(char, char2, char3) {
         this.getNewCoordinates();
-       
-        return super.chooseCell(char, char2, char3)
+
+        return super.choosCell(char, char2, char3)
     }
 
 
     mull() {
-        let emptyCell = this.chooseCell(0);
-        let newCell = random(emptyCell);
-   console.log(newCell);
+        let emptyCells = this.chooseCell(0);
+        let newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        console.log(newCell);
         if (newCell) {
             let newX = newCell[0];
             let newY = newCell[1];
@@ -50,7 +50,7 @@ module.exports = class Fire  extends LivingCreature{
 
     eat() {
         let foods = this.chooseCell(1, 2, 3)
-        let food = random(foods)
+        let food = foods[Math.floor(Math.random() * foods.length)]
 
         if (food) {
             this.energy += 5
@@ -98,7 +98,7 @@ module.exports = class Fire  extends LivingCreature{
 
     move() {
         let emptyCells = this.chooseCell(0)
-        let newCell = random(emptyCells)
+        let newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
 
         if (newCell) {
             this.energy--
