@@ -23,6 +23,10 @@ let defaultButton = document.getElementById("default");
 defaultButton.addEventListener("click", function(){
     weather = "";
 })
+let lightningButton = document.getElementById("lightning");
+lightningButton.addEventListener("click", function(){
+    socket.emit('lightning')
+})
 
 let side = 20
 
@@ -39,10 +43,6 @@ function paint(matrix) {
     for (let y = 0; y < matrix.length; y++) {
         for (x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 1) {
-                fill("black")
-                    rect(x * side, y * side, side, side);
-                    text('🌎', x * side, y * side, side, side);
-                    textSize(side)
                 if(weather === "winter"){
                     fill("white")
                     rect(x * side, y * side, side, side);
@@ -62,6 +62,11 @@ function paint(matrix) {
                     fill("black")
                     rect(x * side, y * side, side, side);
                     text('🍁', x * side, y * side, side, side);
+                    textSize(side)
+                }else {
+                    fill("black")
+                    rect(x * side, y * side, side, side);
+                    text('🌎', x * side, y * side, side, side);
                     textSize(side)
                 }
 
@@ -89,6 +94,11 @@ function paint(matrix) {
                 fill("orange")
                 rect(x * side, y * side, side, side);
                 text('❌', x * side, y * side, side, side);
+                textSize(side)
+            } else if (matrix[y][x] == 10) {
+                fill("orange")
+                rect(x * side, y * side, side, side);
+                text('k', x * side, y * side, side, side);
                 textSize(side)
             } 
             else {

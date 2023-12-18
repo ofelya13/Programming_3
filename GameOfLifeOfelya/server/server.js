@@ -3,12 +3,11 @@ let express = require("express");
 let app = express();
 let server = require('http').Server(app);
 let io = require('socket.io')(server);
-let fs  = require("fs");
+let fs = require("fs");
 
 app.use(express.static("../client"));
 
 app.get("/", function (req, res) {
-    console.log("inside function ------>>>>");
     res.redirect("index.html");
 });
 
@@ -184,29 +183,48 @@ function nkarel() {
 
 setInterval(nkarel, 1000)
 
-io.on('connection', function () {
-    createObject(matrix)
+function lightning() {
+    for (let y = 0; y < matrix.length; y++) {
+        for (let x = 0; x < matrix[y].length; x++) {
+            if (y == x) { 
+                matrix[y][x] = 10;
+                io.sockets.emit("send matrix", matrix);
+                
+
+            }
+            console.log("Kaycak");
+
+            // io.sockets.emit('Lightning', );
+        }
+
+    }
+}
+
+io.on('connection', function (socket) {
+    createObject(matrix);
+    socket.on("lightning", lightning)
 })
 
 let statistic = {
-    grass:0,
-    grassEater:0,
-    predator:0,
-    fire:0,
-    water:0,
-    amenaker:0
+    grass: 0,
+    grassEater: 0,
+    predator: 0,
+    fire: 0,
+    water: 0,
+    amenaker: 0
 }
-setInterval(function(){
+setInterval(function () {
     statistic.grass = grassArr.length;
     statistic.grassEater = grassEaterArr.length;
     statistic.predator = predatorArr.length;
     statistic.fire = fireArr.length;
     statistic.water = waterArr.length;
     statistic.amenaker = amenakerArr.length;
-    
-    fs.writeFile("statistics.json", JSON.stringify(statistic),()=>{
+
+    fs.writeFile("statistics.json", JSON.stringify(statistic), () => {
         console.log("Writed statistic to file !!!");
     })
 
 
-}, 1000)
+}, 6000)
+
