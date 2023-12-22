@@ -116,3 +116,6 @@ setInterval(
         socket.on('send matrix', paint)
     }, 1000
 )
+
+
+

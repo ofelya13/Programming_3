@@ -105,6 +105,7 @@ waterArr = [];
 predatorArr = [];
 fireArr = [];
 amenakerArr = [];
+lightningArr = [];
 
 Grass = require("./grass")
 Water = require("./water")
@@ -112,6 +113,7 @@ Predator = require("./predator")
 Fire = require("./fire")
 Amenaker = require("./amenaker")
 GrassEater = require("./grassEater")
+Lightning = require("./ligthning")
 
 function createObject(matrix) {
 
@@ -135,6 +137,9 @@ function createObject(matrix) {
             } else if (matrix[y][x] == 6) {
                 let amenaker = new Amenaker(x, y)
                 amenakerArr.push(amenaker);
+            }else if (matrix[y][x] = 7){
+                let ligthning = new Lightning(x,y)
+                lightningArr.push(ligthning);
             }
         }
     }
@@ -175,6 +180,10 @@ function nkarel() {
         amenakerArr[i].eat()
 
     }
+    for (let i in lightningArr) {
+        lightningArr[i].eat()
+
+    }
 
     io.sockets.emit("send matrix", matrix);
 
@@ -183,126 +192,52 @@ function nkarel() {
 
 setInterval(nkarel, 1000)
 
+io.on('connection', function(socket) {
+    createObject(matrix);
+    socket.on("lightning", lightning)
+})
+
+let statistic = {
+    grass: 0,
+    grassEater: 0,
+    predator: 0,
+    fire: 0,
+    water: 0,
+    amenaker: 0
+}
+setInterval(function() {
+    statistic.grass = grassArr.length;
+    statistic.grassEater = grassEaterArr.length;
+    statistic.predator = predatorArr.length;
+    statistic.fire = fireArr.length;
+    statistic.water = waterArr.length;
+    statistic.amenaker = amenakerArr.length;
+    statistic.lightning = lightningArr.length;
+    fs.writeFile("statistics.json", JSON.stringify(statistic), () => {
+        console.log("Writed statistic to file !!!");
+    })
+
+
+}, 6000)
+
 function lightning() {
     for (let y = 0; y < matrix.length; y++) {
         for (let x = 0; x < matrix[y].length; x++) {
             if (y == x) {
                 matrix[y][x] = 10;
-                io.sockets.emit("send matrix", matrix);
-                choosCell(char, char2, char3, char4, char5, char6)
-                this.getNewCoordinates();
-                return super.choosCell(char, char2, char3, char4, char5, char6)
+                io.sockets.emit("send matrix", matrix)
+                let i = Math.floor(Math.random() * matrix.length)
+                let j = Math.floor(Math.random() * matrix.length)
+
+                    if(matrix[i][j] == 0){
+                    matrix[i][j] = 7
+                    }
             }
 
-            mull()
 
-            let emptyCells = this.choosCell(0)
-            let newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
-
-            if (newCell) {
-                let newX = newCell[0]
-                let newY = newCell[1]
-
-                matrix[newY][newX] = 2
-
-                let grEat = new GrassEater(newX, newY)
-                grassEaterArr.push(grEat)
-
-
-            }
-        }
-        let emptyCells = this.choosCell(6)
-        let newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
-
-        for (let i in grassArr) {
-            if (newX == grassArr[i].x && newY == grassArr[i].y) {
-                grassArr.splice(i, 1)
-
-                break;
-            }
+            // io.sockets.emit('Lightning', );
         }
 
-        for (let i in grassEaterArr) {
-            if (newX == grassEaterArr[i].x && newY == grassEaterArr[i].y) {
-                grassEaterArr.splice(i, 1)
-
-                break;
-            }
-        }
-
-        for (let i in predatorArr) {
-            if (newX == predatorArr[i].x && newY == predatorArr[i].y) {
-                predatorArr.splice(i, 1)
-
-                break;
-            }
-        }
-        for (let i in fireArr) {
-            if (newX == fireArr[i].x && newY == fireArr[i].y) {
-                fireArr.splice(i, 1)
-
-                break;
-            }
-        }
-        for (let i in waterArr) {
-            if (newX == waterArr[i].x && newY == waterArr[i].y) {
-                waterArr.splice(i, 1)
-
-                break;
-            }
-        }
-        for (let i in amenakerArr) {
-            if (newX == amenakerArr[i].x && newY == amenakerArr[i].y) {
-                amenakerArr.splice(i, 1)
-
-                break;
-            } else {
-                this.move()
-            }
-        }
-        console.log("Kaycak");
-
-        this.x = newX
-        this.y = newY
-
-
-
-
-
-
-
-
-        // io.sockets.emit('Lightning', );
     }
 
-
-
-
-    io.on('connection', function(socket) {
-        createObject(matrix);
-        socket.on("lightning", lightning)
-    })
-
-    let statistic = {
-        grass: 0,
-        grassEater: 0,
-        predator: 0,
-        fire: 0,
-        water: 0,
-        amenaker: 0
-    }
-    setInterval(function() {
-        statistic.grass = grassArr.length;
-        statistic.grassEater = grassEaterArr.length;
-        statistic.predator = predatorArr.length;
-        statistic.fire = fireArr.length;
-        statistic.water = waterArr.length;
-        statistic.amenaker = amenakerArr.length;
-
-        fs.writeFile("statistics.json", JSON.stringify(statistic), () => {
-            console.log("Writed statistic to file !!!");
-        })
-
-
-    }, 6000)
 }

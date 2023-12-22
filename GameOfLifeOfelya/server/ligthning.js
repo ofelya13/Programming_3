@@ -1,15 +1,10 @@
 let LivingCreature = require("./livingCreature")
 
-
-module.exports = class Amenaker extends LivingCreature {
+module.exports = class Lightning extends LivingCreature {
     constructor(x, y) {
         super(x, y)
-        this.energy = 15;
-
-
+        this.energy = 10
     }
-
-
 
     getNewCoordinates() {
         this.directions = [
@@ -24,13 +19,13 @@ module.exports = class Amenaker extends LivingCreature {
         ];
     }
 
-    chooseCell(char, char2, char3, char4, char5) {
+    chooseCell(char, char2, char3, char4, char5,char6) {
         this.getNewCoordinates();
-        return super.choosCell(char, char2, char3, char4, char5)
+        return super.choosCell(char, char2, char3, char4, char5,char6)
     }
 
     eat() {
-        let foods = this.chooseCell(1, 2, 3, 4, 5)
+        let foods = this.chooseCell(1, 2, 3, 4, 5,6)
         let food = foods[Math.floor(Math.random() * foods.length)]
 
         if (food) {
@@ -78,6 +73,13 @@ module.exports = class Amenaker extends LivingCreature {
                     break;
                 }
             }
+            for (let i in amenakerArr) {
+                if (newX == amenakerArr[i].x && newY == amenakerArr[i].y) {
+                    amenakerArr.splice(i, 1)
+
+                    break;
+                }
+            }
 
             this.x = newX
             this.y = newY
@@ -112,9 +114,9 @@ module.exports = class Amenaker extends LivingCreature {
 
     die() {
         matrix[this.y][this.x] = 0;
-        for (let i in amenakerArr) {
-            if (this.y == amenakerArr[i].x && this.x == amenakerArr[i].y) {
-                amenakerArr.splice(i, 1);
+        for (let i in lightningArr) {
+            if (this.y == lightningArr[i].x && this.x == lightningArr[i].y) {
+                lightningArr.splice(i, 1);
                 break;
             }
         }

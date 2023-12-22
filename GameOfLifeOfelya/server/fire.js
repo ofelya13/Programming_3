@@ -1,15 +1,14 @@
 let LivingCreature = require("./livingCreature")
 
 
-
-
 module.exports = class Fire extends LivingCreature {
     constructor(x, y) {
         super(x, y)
-        this.energy = 15;
-
-
+        this.energy = 10
     }
+
+
+
 
 
 
