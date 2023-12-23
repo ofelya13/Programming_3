@@ -7,11 +7,11 @@ let fs = require("fs");
 
 app.use(express.static("../client"));
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
     res.redirect("index.html");
 });
 
-server.listen(3000, function() {
+server.listen(3000, function () {
     console.log("Example is running on port 3000");
 });
 
@@ -96,7 +96,7 @@ function matrixGenerator(matrixSize, grassCount, grassEaterCount, predatorCount,
     return matrix
 }
 
-matrix = matrixGenerator(40, 35, 10, 5, 10, 30, 7)
+matrix = matrixGenerator(40, 35, 10, 5, 10, 30, 0)
 io.sockets.emit('send matrix', matrix)
 
 grassArr = [];
@@ -137,8 +137,8 @@ function createObject(matrix) {
             } else if (matrix[y][x] == 6) {
                 let amenaker = new Amenaker(x, y)
                 amenakerArr.push(amenaker);
-            }else if (matrix[y][x] = 7){
-                let ligthning = new Lightning(x,y)
+            } else if (matrix[y][x] == 7) {
+                let ligthning = new Lightning(x, y)
                 lightningArr.push(ligthning);
             }
         }
@@ -149,7 +149,7 @@ function createObject(matrix) {
 
 function nkarel() {
 
-
+    console.log("aaaaaaa",)
     for (let i in grassArr) {
 
         grassArr[i].mul()
@@ -190,12 +190,26 @@ function nkarel() {
 }
 
 
-setInterval(nkarel, 1000)
+setInterval(nkarel, 300)
 
-io.on('connection', function(socket) {
-    createObject(matrix);
-    socket.on("lightning", lightning)
-})
+
+
+
+function lightning(count) {
+    for (let i = 0; i < count; i++) {
+        let i = Math.floor(Math.random() * matrix.length)
+        let j = Math.floor(Math.random() * matrix.length)
+
+        if (matrix[i][j] == 0) {
+            matrix[i][j] = 7;
+
+        }
+    }
+    createObject(matrix)
+    io.sockets.emit("send matrix", matrix);
+
+}
+
 
 let statistic = {
     grass: 0,
@@ -203,9 +217,10 @@ let statistic = {
     predator: 0,
     fire: 0,
     water: 0,
-    amenaker: 0
+    amenaker: 0,
+    lightning: 0
 }
-setInterval(function() {
+setInterval(function () {
     statistic.grass = grassArr.length;
     statistic.grassEater = grassEaterArr.length;
     statistic.predator = predatorArr.length;
@@ -214,30 +229,14 @@ setInterval(function() {
     statistic.amenaker = amenakerArr.length;
     statistic.lightning = lightningArr.length;
     fs.writeFile("statistics.json", JSON.stringify(statistic), () => {
-        console.log("Writed statistic to file !!!");
+        console.log("=====Writed statistic to file !!!====");
     })
 
 
-}, 6000)
-
-function lightning() {
-    for (let y = 0; y < matrix.length; y++) {
-        for (let x = 0; x < matrix[y].length; x++) {
-            if (y == x) {
-                matrix[y][x] = 10;
-                io.sockets.emit("send matrix", matrix)
-                let i = Math.floor(Math.random() * matrix.length)
-                let j = Math.floor(Math.random() * matrix.length)
-
-                    if(matrix[i][j] == 0){
-                    matrix[i][j] = 7
-                    }
-            }
+}, 1000)
 
 
-            // io.sockets.emit('Lightning', );
-        }
-
-    }
-
-}
+io.on('connection', function (socket) {
+    createObject(matrix);
+    socket.on("lightning", lightning)
+})

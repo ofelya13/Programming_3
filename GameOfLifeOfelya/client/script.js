@@ -25,7 +25,7 @@ defaultButton.addEventListener("click", function() {
 })
 let lightningButton = document.getElementById("lightning");
 lightningButton.addEventListener("click", function() {
-    socket.emit('lightning')
+    socket.emit('lightning', 10)
 })
 
 let side = 20
@@ -41,24 +41,24 @@ function setup() {
 
 function paint(matrix) {
     for (let y = 0; y < matrix.length; y++) {
-        for (x = 0; x < matrix[y].length; x++) {
+        for (let x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 1) {
-                if (weather === "winter") {
+                if (weather == "winter") {
                     fill("white")
                     rect(x * side, y * side, side, side);
                     text('❄️', x * side, y * side, side, side);
                     textSize(side)
-                } else if (weather === "spring") {
+                } else if (weather == "spring") {
                     fill("green")
                     rect(x * side, y * side, side, side);
                     text('🌸', x * side, y * side, side, side);
                     textSize(side)
-                } else if (weather === "summer") {
+                } else if (weather == "summer") {
                     fill("acua")
                     rect(x * side, y * side, side, side);
                     text('☀️', x * side, y * side, side, side);
                     textSize(side)
-                } else if (weather === "autumn") {
+                } else if (weather == "autumn") {
                     fill("black")
                     rect(x * side, y * side, side, side);
                     text('🍁', x * side, y * side, side, side);
@@ -93,14 +93,20 @@ function paint(matrix) {
             } else if (matrix[y][x] == 6) {
                 fill("orange")
                 rect(x * side, y * side, side, side);
-                text('❌', x * side, y * side, side, side);
+                text('☠️', x * side, y * side, side, side);
                 textSize(side)
-            } else if (matrix[y][x] == 10) {
+            }else if (matrix[y][x] == 7) {
                 fill("white")
                 rect(x * side, y * side, side, side);
                 text('⚡️', x * side, y * side, side, side);
                 textSize(side)
-            } else {
+            }else if (matrix[y][x] == 10) {
+                fill("brown")
+                 console.log(">>>>>>>>>100000");
+                 rect(x * side, y * side, side, side);
+
+            }
+             else {
                 fill("gray")
                 rect(x * side, y * side, side, side);
 
@@ -111,11 +117,9 @@ function paint(matrix) {
 
 }
 
-setInterval(
-    function() {
-        socket.on('send matrix', paint)
-    }, 1000
-)
+
+socket.on("send matrix", paint)
+
 
 
 

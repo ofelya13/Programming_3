@@ -91,7 +91,7 @@ let LivingCreature = require("./livingCreature")
         let newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
 
         if (newCell) {
-            this.energy--
+            this.energy-=10
             let newX = newCell[0]
             let newY = newCell[1]
 

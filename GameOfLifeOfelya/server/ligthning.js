@@ -25,16 +25,25 @@ module.exports = class Lightning extends LivingCreature {
     }
 
     eat() {
+        console.log("========eeeeee===========");
         let foods = this.chooseCell(1, 2, 3, 4, 5,6)
-        let food = foods[Math.floor(Math.random() * foods.length)]
+        // let food = foods[Math.floor(Math.random() * foods.length)]
 
-        if (food) {
-            this.energy += 5
-            let newX = food[0]
-            let newY = food[1]
 
-            matrix[newY][newX] = 6
-            matrix[this.y][this.x] = 0
+
+        if (foods.length  > 0) {
+            let newX = null
+            let newY = null            
+            for (let i in foods) {
+                newX = foods[i][0]
+                newY = foods[i][1]
+            }
+            // this.energy += 5
+            // let newX = food[0]
+            // let newY = food[1]
+
+            matrix[newY][newX] = 10
+            matrix[this.y][this.x] = 7
 
             for (let i in grassArr) {
                 if (newX == grassArr[i].x && newY == grassArr[i].y) {
@@ -81,11 +90,12 @@ module.exports = class Lightning extends LivingCreature {
                 }
             }
 
-            this.x = newX
-            this.y = newY
+            // this.x = newX
+            // this.y = newY
 
         } else {
-            this.move()
+            // this.move()
+            this.die()
         }
 
     }
@@ -99,7 +109,7 @@ module.exports = class Lightning extends LivingCreature {
             let newX = newCell[0]
             let newY = newCell[1]
 
-            matrix[newY][newX] = 6
+            matrix[newY][newX] = 7
             matrix[this.y][this.x] = 0
 
 
@@ -115,7 +125,8 @@ module.exports = class Lightning extends LivingCreature {
     die() {
         matrix[this.y][this.x] = 0;
         for (let i in lightningArr) {
-            if (this.y == lightningArr[i].x && this.x == lightningArr[i].y) {
+            console.log("meri kaycak");
+            if (this.y == lightningArr[i].y && this.x == lightningArr[i].x) {
                 lightningArr.splice(i, 1);
                 break;
             }

@@ -35,7 +35,6 @@ module.exports = class Fire extends LivingCreature {
     mull() {
         let emptyCells = this.chooseCell(0);
         let newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-        console.log(newCell);
         if (newCell) {
             let newX = newCell[0];
             let newY = newCell[1];
